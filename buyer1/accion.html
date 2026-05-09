@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acción</title>
+    <title>Clase Demostrativa de Diseño de Medios Interactivos | USFQ</title>
+    <meta name="description" content="Participa en una clase presencial gratuita. Descubre cómo se enseña DMI. Reserva tu lugar para la clase demostrativa.">
+    <link rel="canonical" href="https://nahimshino.github.io/proyecto-embudos-dmi/buyer1/accion.html">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NFH47D3JEB"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-NFH47D3JEB');
+        </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
 </head>
@@ -18,9 +29,9 @@
     </nav>
 
     <div class="container py-5">
-        <h2 class="fw-bold text-center mb-4">Clase Demostrativa Presencial</h2>
+        <h1 class="fw-bold text-center mb-4">Clase Demostrativa Presencial</h1>
         
-        <form action="tks.html" class="mb-5 border-bottom pb-5">
+        <form action="tks.html" id="buyer1-form" class="mb-5 border-bottom pb-5">
             <div class="mb-3">
                 <label class="form-label">Nombre</label>
                 <input type="text" class="form-control border-dark" required>
@@ -46,5 +57,25 @@
             <p>+593 2 506 1700</p>
         </div>
     </footer>
+        <script>
+            document.getElementById('buyer1-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const form = this;
+                const redirectTo = form.action;
+
+                gtag('event', 'generate_lead', {
+                    event_category: 'conversion',
+                    event_label: 'buyer1_reserva_clase_demostrativa',
+                    event_callback: function () {
+                        window.location.href = redirectTo;
+                    }
+                });
+
+                setTimeout(function () {
+                    window.location.href = redirectTo;
+                }, 800);
+            });
+        </script>
 </body>
 </html>
