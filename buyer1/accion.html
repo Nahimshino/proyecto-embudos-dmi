@@ -206,19 +206,22 @@
     <script>
         (function () {
             var form = document.getElementById('sib-form');
-            var frame = document.getElementById('brevo-submit-frame');
-            var redirected = false;
-
-            frame.addEventListener('load', function () {
-                if (!redirected) return;
-                window.location.href = 'tks.html';
-            });
-
+            var success = document.getElementById('success-message');
+            if (!form || !success) return;
             form.addEventListener('submit', function () {
-                redirected = true;
-                window.setTimeout(function () {
-                    if (redirected) window.location.href = 'tks.html';
-                }, 2500);
+                var attempts = 0;
+                var iv = setInterval(function () {
+                    attempts++;
+                    var style = window.getComputedStyle(success);
+                    if (style && style.display !== 'none' && success.innerText.trim().length > 0) {
+                        clearInterval(iv);
+                        window.location.href = 'tks.html';
+                        return;
+                    }
+                    if (attempts > 20) {
+                        clearInterval(iv);
+                    }
+                }, 300);
             });
         })();
     </script>
