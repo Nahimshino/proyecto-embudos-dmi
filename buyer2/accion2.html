@@ -109,7 +109,7 @@
                     </div>
                     <div></div>
                     <div id="sib-container" class="sib-container--large sib-container--vertical" style="max-width:540px; text-align:center; background-color:rgba(255,255,255,1); border-width:1px; border-style:solid; border-color:#C0CCD9; border-radius:3px; direction:ltr">
-                        <form id="sib-form" method="POST" action="https://958bb597.sibforms.com/serve/MUIFALP20ed5tyGKUKT_uhfvnphbayt_SsAdnliEmSSIaGDtFWiBLvFWo3axGAZ2t2dEO9jNhzGE2bxfXHRqhzwhB61TudMd3EaYNTbWKNekZaKzxYgGvhQznlFw1ECwmVTDcRg9U5a10b9xmm6v3edhtI3fQY2y9C6ldoySlTl0Qkx7s4ITbiZ4QM8UzribBoDgCblf1Yufn6DoDQ==" data-type="subscription">
+                        <form id="sib-form" name="sib-form" method="POST" target="brevo-submit-frame" action="https://958bb597.sibforms.com/serve/MUIFALP20ed5tyGKUKT_uhfvnphbayt_SsAdnliEmSSIaGDtFWiBLvFWo3axGAZ2t2dEO9jNhzGE2bxfXHRqhzwhB61TudMd3EaYNTbWKNekZaKzxYgGvhQznlFw1ECwmVTDcRg9U5a10b9xmm6v3edhtI3fQY2y9C6ldoySlTl0Qkx7s4ITbiZ4QM8UzribBoDgCblf1Yufn6DoDQ==" data-type="subscription">
                             <div style="padding: 16px 0;">
                                 <div class="sib-form-block" style="font-family:Helvetica, sans-serif; font-size:32px; font-weight:700; text-align:center; color:#000000; background-color:transparent; text-align:center">
                                     <p>Visita Personalizada USFQ</p>
@@ -482,6 +482,7 @@
             <p>+593 2 506 1700</p>
         </div>
     </footer>
+    <iframe name="brevo-submit-frame" id="brevo-submit-frame" title="Brevo submission frame" style="display:none;width:0;height:0;border:0;position:absolute;left:-9999px;"></iframe>
     <script>
         window.REQUIRED_CODE_ERROR_MESSAGE = 'Elige un código de país';
         window.LOCALE = 'es';
@@ -500,6 +501,30 @@
             }
         };
         var AUTOHIDE = Boolean(0);
+    </script>
+    <script>
+        (function () {
+            var form = document.getElementById('sib-form');
+            var frame = document.getElementById('brevo-submit-frame');
+            var redirected = false;
+
+            frame.addEventListener('load', function () {
+                if (!redirected) {
+                    return;
+                }
+
+                window.location.href = 'tks2.html';
+            });
+
+            form.addEventListener('submit', function () {
+                redirected = true;
+                window.setTimeout(function () {
+                    if (redirected) {
+                        window.location.href = 'tks2.html';
+                    }
+                }, 2500);
+            });
+        })();
     </script>
     <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?hl=es"></script>
