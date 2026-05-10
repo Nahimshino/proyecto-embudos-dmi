@@ -231,11 +231,22 @@
             if (!f) return;
             f.addEventListener('submit', function(){
                 try {
+                    // quitar '+' del código de país si existe
+                    var cc = f.querySelector('[name="SMS__COUNTRY_CODE"]');
+                    if (cc && cc.value) cc.value = cc.value.toString().replace(/^\+/, '');
+
+                    // dejar solo dígitos en número SMS
+                    var sms = f.querySelector('[name="SMS"]');
+                    if (sms && sms.value) sms.value = sms.value.toString().replace(/\D/g, '');
+
+                    // log para depuración
                     var fd = new FormData(f);
-                    console.group('Brevo form payload (buyer2)');
+                    console.group('Brevo form payload (buyer2 debug)');
                     fd.forEach(function(v,k){ console.log(k+':', v); });
+                    console.log('Sanitized SMS__COUNTRY_CODE:', cc ? cc.value : '(none)');
+                    console.log('Sanitized SMS:', sms ? sms.value : '(none)');
                     console.groupEnd();
-                } catch (e) { console.error('Error logging form data:', e); }
+                } catch (e) { console.error('Error sanitizing/logging form data:', e); }
             });
         })();
     </script>
