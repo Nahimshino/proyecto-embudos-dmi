@@ -229,24 +229,44 @@
         (function(){
             var f = document.getElementById('sib-form');
             if (!f) return;
+            
+            var cc = f.querySelector('[name="SMS__COUNTRY_CODE"]');
+            var sms = f.querySelector('[name="SMS"]');
+            
+            // Sanitize country code on change: remove leading +
+            if (cc) {
+                cc.addEventListener('change', function(){
+                    if (cc.value) cc.value = cc.value.toString().replace(/^\+/, '');
+                    console.log('Country code sanitized:', cc.value);
+                });
+                // Also sanitize on blur to catch manual edits
+                cc.addEventListener('blur', function(){
+                    if (cc.value) cc.value = cc.value.toString().replace(/^\+/, '');
+                    console.log('Country code sanitized on blur:', cc.value);
+                });
+            }
+            
+            // Sanitize SMS number on change: keep only digits
+            if (sms) {
+                sms.addEventListener('change', function(){
+                    if (sms.value) sms.value = sms.value.toString().replace(/\D/g, '');
+                    console.log('SMS number sanitized:', sms.value);
+                });
+                // Also sanitize on blur
+                sms.addEventListener('blur', function(){
+                    if (sms.value) sms.value = sms.value.toString().replace(/\D/g, '');
+                    console.log('SMS number sanitized on blur:', sms.value);
+                });
+            }
+            
+            // Log form data on submit for debugging
             f.addEventListener('submit', function(){
                 try {
-                    // quitar '+' del código de país si existe
-                    var cc = f.querySelector('[name="SMS__COUNTRY_CODE"]');
-                    if (cc && cc.value) cc.value = cc.value.toString().replace(/^\+/, '');
-
-                    // dejar solo dígitos en número SMS
-                    var sms = f.querySelector('[name="SMS"]');
-                    if (sms && sms.value) sms.value = sms.value.toString().replace(/\D/g, '');
-
-                    // log para depuración
                     var fd = new FormData(f);
-                    console.group('Brevo form payload (buyer1 debug)');
+                    console.group('Final Brevo form payload (buyer1)');
                     fd.forEach(function(v,k){ console.log(k+':', v); });
-                    console.log('Sanitized SMS__COUNTRY_CODE:', cc ? cc.value : '(none)');
-                    console.log('Sanitized SMS:', sms ? sms.value : '(none)');
                     console.groupEnd();
-                } catch (e) { console.error('Error sanitizing/logging form data:', e); }
+                } catch (e) { console.error('Error logging form data:', e); }
             });
         })();
     </script>
