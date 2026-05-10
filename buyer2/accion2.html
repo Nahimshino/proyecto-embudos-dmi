@@ -225,6 +225,20 @@
             });
         })();
     </script>
+    <script>
+        (function(){
+            var f = document.getElementById('sib-form');
+            if (!f) return;
+            f.addEventListener('submit', function(){
+                try {
+                    var fd = new FormData(f);
+                    console.group('Brevo form payload (buyer2)');
+                    fd.forEach(function(v,k){ console.log(k+':', v); });
+                    console.groupEnd();
+                } catch (e) { console.error('Error logging form data:', e); }
+            });
+        })();
+    </script>
     <script src="https://sibforms.com/forms/end-form/build/main.js" defer></script>
 </body>
 </html>
