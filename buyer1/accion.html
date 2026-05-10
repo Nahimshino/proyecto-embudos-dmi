@@ -239,10 +239,8 @@
                     if (cc.value) cc.value = cc.value.toString().replace(/^\+/, '');
                     console.log('Country code sanitized:', cc.value);
                 });
-                // Also sanitize on blur to catch manual edits
                 cc.addEventListener('blur', function(){
                     if (cc.value) cc.value = cc.value.toString().replace(/^\+/, '');
-                    console.log('Country code sanitized on blur:', cc.value);
                 });
             }
             
@@ -252,21 +250,37 @@
                     if (sms.value) sms.value = sms.value.toString().replace(/\D/g, '');
                     console.log('SMS number sanitized:', sms.value);
                 });
-                // Also sanitize on blur
                 sms.addEventListener('blur', function(){
                     if (sms.value) sms.value = sms.value.toString().replace(/\D/g, '');
-                    console.log('SMS number sanitized on blur:', sms.value);
                 });
             }
             
-            // Log form data on submit for debugging
-            f.addEventListener('submit', function(){
+            // On submit: combine country code + number without leading 0
+            f.addEventListener('submit', function(e){
                 try {
+                    var countryCode = cc ? cc.value.replace(/^\+/, '') : '';
+                    var phoneNumber = sms ? sms.value.toString().replace(/\D/g, '') : '';
+                    
+                    // For Ecuador (+593), remove leading 0 if present
+                    if (countryCode === '593' && phoneNumber.charAt(0) === '0') {
+                        phoneNumber = phoneNumber.substring(1);
+                    }
+                    
+                    // Combine: +countryCode + number
+                    if (countryCode && phoneNumber) {
+                        sms.value = '+' + countryCode + phoneNumber;
+                        console.log('Combined phone number:', sms.value);
+                    }
+                    
+                    // Remove country code field since it's now combined into SMS
+                    if (cc) cc.value = '';
+                    
+                    // Log final payload
                     var fd = new FormData(f);
                     console.group('Final Brevo form payload (buyer1)');
                     fd.forEach(function(v,k){ console.log(k+':', v); });
                     console.groupEnd();
-                } catch (e) { console.error('Error logging form data:', e); }
+                } catch (e) { console.error('Error processing form data:', e); }
             });
         })();
     </script>
